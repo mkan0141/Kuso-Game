@@ -90,7 +90,7 @@ void game_screen(){
     ch = available_key(ch);
     if(ch != -1){
       if(available_move(player,Vector2(dx[ch],dy[ch]),maze)){
-        Vector2 vec = bfs_ai(enemy, player, maze);
+        Vector2 vec = ai(enemy, player,maze,start);
         move_player(player, Vector2(player.x + dx[ch], player.y + dy[ch]), maze);
 	move_enemy(enemy, vec, maze);
 	if(is_gameover(enemy, player)){

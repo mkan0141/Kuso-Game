@@ -59,3 +59,11 @@ Vector2 bfs_ai(Enemy enemy, Player player,int maze[MAZE_SIZE][MAZE_SIZE]){
   maze[enemy.y][enemy.x] = ROAD;
   return Vector2(enemy.x + dx[index], enemy.y + dy[index]);
 }
+
+Vector2 ai(Enemy enemy, Player player,int (&maze)[MAZE_SIZE][MAZE_SIZE], time_t start){
+  time_t now = time(NULL);
+  int diff_time = now - start;
+
+  if(diff_time <= 10)return random_ai(enemy, maze);
+  else return bfs_ai(enemy, player, maze);
+}
