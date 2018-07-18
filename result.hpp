@@ -13,13 +13,13 @@ struct Ranking{
 
 int search(Ranking ranking[], int time){
   for(int i = 0; i < 9; i++){
-    if(time < ranking[i].score)return i;
+    if(time > ranking[i].score)return i;
   }
   return -1;
 }
 
 void insert(Ranking *ranking, int index, Ranking player){
-  for(int i = index; i < 9; i++){
+  for(int i = 9; i >= index; i--){
     ranking[i].rank = i + 1;
     ranking[i+1] = ranking[i];
   }
@@ -44,14 +44,15 @@ void draw_result(int time, char *name){
 
   int i=0;
   while(fscanf(fp, "%d %s %d", &ranking[i].rank, ranking[i].name, &ranking[i].score) != EOF){
-    mvprintw(height, 2,"%2d\t%s\t%2d", ranking[i].rank,ranking[i].name, ranking[i].score);
-    height+=2;
+    // mvprintw(height, 2,"%2d\t%s\t%2d", ranking[i].rank,ranking[i].name, ranking[i].score);
     i++;
   }
 
-  mvprintw(height, 2,"%d", time);
+  // mvprintw(height, 2,"%d", time);
   
   int index = search(ranking, time);
+  mvprintw(height, 2,"%d", index);
+  
   if(index != -1){
     Ranking r;
     strcpy(r.name, name) , r.score = time, r.rank = index;
@@ -59,10 +60,9 @@ void draw_result(int time, char *name){
   }
 
   for(int i = 0; i < 10; i++){
-    //mvprintw(height, 2,"%2d\t\t%s\t\t%2d", ranking[i].rank, ranking[i].name, ranking[i].score);
+    mvprintw(height, 2,"%2d\t\t%s\t\t%2d", ranking[i].rank, ranking[i].name, ranking[i].score);
     height+=2;
   }
-  
   
   refresh();
   int ch = 0;
