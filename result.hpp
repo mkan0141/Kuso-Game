@@ -58,19 +58,23 @@ void draw_result(int time, char *name){
     strcpy(r.name, name) , r.score = time, r.rank = index;
     insert(ranking, index, r);
   }
+  fclose(fp);
 
   for(int i = 0; i < 10; i++){
-    mvprintw(height, 2,"%2d\t\t%s\t\t%2d", ranking[i].rank, ranking[i].name, ranking[i].score);
+    mvprintw(height, 2,"%2d\t\t%s\t\t%2d", i + 1, ranking[i].name, ranking[i].score);
     height+=2;
   }
   
+  fp = fopen("./text/ranking.txt", "w");
+  for(int i=0;i<10;i++){
+    fprintf(fp, "%d %s %d\n", i + 1, ranking[i].name, ranking[i].score);
+  }
+  fclose(fp);
   refresh();
   int ch = 0;
   while(1){
     ch = getch();
     if(ch == 'q')break;
-   }
-   
-  fclose(fp);
+  }
   clear();
 }
