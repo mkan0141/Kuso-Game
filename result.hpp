@@ -7,7 +7,7 @@
 
 struct Ranking{
   int rank;
-  char name[1000];
+  char name[100];
   int score;
 };
 
@@ -28,7 +28,7 @@ void insert(Ranking *ranking, int index, Ranking player){
 
 void draw_result(int time, char *name){
   clear();
-  refresh();
+  
   FILE *fp;
   if((fp = fopen("./text/ranking.txt", "r")) == NULL){
     mvprintw(3,3,"rankingファイルがありません!!");
@@ -40,41 +40,42 @@ void draw_result(int time, char *name){
   mvprintw(0, 2,"じゅんい\tおなまえ\tとくてん");
 
   int height = 2;
-  Ranking ranking[1000];
+  Ranking ranking[11];
 
   int i=0;
   while(fscanf(fp, "%d %s %d", &ranking[i].rank, ranking[i].name, &ranking[i].score) != EOF){
     // mvprintw(height, 2,"%2d\t%s\t%2d", ranking[i].rank,ranking[i].name, ranking[i].score);
     i++;
   }
-
-  // mvprintw(height, 2,"%d", time);
   
   int index = search(ranking, time);
   mvprintw(height, 2,"%d", index);
   
   if(index != -1){
     Ranking r;
-    strcpy(r.name, name) , r.score = time, r.rank = index;
+    strcpy(r.name , name) , r.score = time, r.rank = index;
     insert(ranking, index, r);
   }
   fclose(fp);
 
   for(int i = 0; i < 10; i++){
     mvprintw(height, 2,"%2d\t\t%s\t\t%2d", i + 1, ranking[i].name, ranking[i].score);
-    height+=2;
+    height+=1;
   }
   
   fp = fopen("./text/ranking.txt", "w");
   for(int i=0;i<10;i++){
     fprintf(fp, "%d %s %d\n", i + 1, ranking[i].name, ranking[i].score);
   }
+  
   fclose(fp);
   refresh();
+  
   int ch = 0;
   while(1){
     ch = getch();
     if(ch == 'q')break;
   }
+  
   clear();
 }

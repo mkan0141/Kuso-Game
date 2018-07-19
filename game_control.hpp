@@ -3,9 +3,8 @@
 
 #include "game.hpp"
 
-char *input_username_screen(){
+char *input_username_screen(char *name){
   int ch, index = 0;
-  char name[200];
   clear();
 
   int width = 5;
@@ -29,6 +28,7 @@ char *input_username_screen(){
 }
 
 void show_game(){
-  char *name = input_username_screen();
+  char name[200];
+  input_username_screen(name);
   game_main(name);
 }
