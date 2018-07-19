@@ -29,7 +29,7 @@ void move_enemy(Enemy &enemy, Vector2 d, int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   maze[d.y][d.x] = ENEMY;
 }
 
-bool is_gameover(Enemy enemy, Player player){
+bool is_game_over(Enemy enemy, Player player){
   return (player.x == enemy.x && player.y == enemy.y);
 }
 
@@ -60,10 +60,16 @@ void draw_all(int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   refresh();
 }
 
-void game_screen(){
+void destroy_all(int (&maze)[MAZE_SIZE][MAZE_SIZE], Player *player, Enemy *enemy){
+  free(player);
+  free(enemy);
+}
+
+void game_main(char *name){
+  clear();
   
-  Player player = Player(0,0);
-  Enemy enemy = Enemy(0, 0);
+  Player *player; player = (Player*)malloc(sizeof(Player));
+  Enemy *enemy; enemy = (Enemy*)malloc(sizeof(Enemy));
   int ch;
   int maze[MAZE_SIZE][MAZE_SIZE] = {
     {0,0,0,0,0,0,0,0,0,0,0},
@@ -79,9 +85,10 @@ void game_screen(){
     {0,0,0,0,0,0,0,0,0,0,0}
   };
 
-  init_charactor(player, enemy, maze);
+  init_charactor(*player, *enemy, maze);
  
   // timeout(delay);
+  draw_all(maze);
   time_t start = time(NULL);
   while(1){
     ch = getch();
@@ -89,11 +96,11 @@ void game_screen(){
     continue;*/
     ch = available_key(ch);
     if(ch != -1){
-      if(available_move(player,Vector2(dx[ch],dy[ch]),maze)){
-        Vector2 vec = ai(enemy, player,maze,start);
-        move_player(player, Vector2(player.x + dx[ch], player.y + dy[ch]), maze);
-	move_enemy(enemy, vec, maze);
-	if(is_gameover(enemy, player)){
+      if(available_move(*player,Vector2(dx[ch],dy[ch]),maze)){
+        Vector2 vec = ai(*enemy, *player,maze,start);
+        move_player(*player, Vector2(player->x + dx[ch], player->y + dy[ch]), maze);
+	move_enemy(*enemy, vec, maze);
+	if(is_game_over(*enemy, *player)){
 	  draw_all(maze);
           break;
      	}
@@ -103,7 +110,7 @@ void game_screen(){
     ch = -1;
   }
   
-  char *name = "aiuep";
+  destroy_all(maze, player, enemy);
   time_t end = time(NULL);
   draw_result(end - start , name);
   return ;
