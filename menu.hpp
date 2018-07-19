@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-#include "game.hpp"
+#include "game_control.hpp"
 #include "ranking.hpp"
 #include "help.hpp"
 
@@ -19,7 +19,7 @@ int show_menu(){
     draw_menu();
     key = getch();
     /* game start */
-    if(key == 49) game_screen();
+    if(key == 49) show_game();
     /* show ranking */
     else if(key == 50) show_ranking();
     /* show help */
