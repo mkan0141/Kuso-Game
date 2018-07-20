@@ -22,5 +22,8 @@ result.o: result.hpp
 create_maze.o: create_maze.hpp
 	g++ -std=c++14 -c create_maze.hpp -o create_maze.o -lncursesw
 
+params.p: params.hpp
+	g++ -std=c++14 -c params.hpp -o params.o -lncursesw
+
 clear:
 	rm  oni
