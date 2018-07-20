@@ -108,8 +108,13 @@ void game_main(char *name){
 				if(ch != -1){
 						if(available_move(*player,Vector2(dx[ch],dy[ch]),maze)){
 								for(int i=0;i<enemy_cnt; i++) vec[i] = ai(enemy[i], *player,maze,enemy_walk[i]);
-								for(int i=0;i<enemy_cnt; i++) move_enemy(enemy[i], vec[i], maze);
-
+								for(int i=0;i<enemy_cnt; i++){
+										if(is_game_over(enemy[i],*player)){
+												gameover=true;
+												break;
+										}
+										move_enemy(enemy[i], vec[i], maze);
+								}
 								move_player(*player, Vector2(player->x + dx[ch], player->y + dy[ch]), maze);
 								for(int i=0;i<enemy_cnt;i++){
 										if(is_game_over(enemy[i], *player)){
@@ -124,7 +129,6 @@ void game_main(char *name){
 						for(int i=0;i<enemy_cnt;i++){
 								move_enemy(enemy[i], vec[i], maze);
 								if(is_game_over(enemy[i], *player)){
-										draw_all(maze,start);
 										gameover = true;
 										break;
 								}
@@ -135,6 +139,7 @@ void game_main(char *name){
 				ch = -1;
 				if(gameover)break;
 		}
+		draw_all(maze, start);sleep(1);
 		destroy_all(maze, player, enemy);
 		clear();refresh();
 		time_t end = time(NULL);
