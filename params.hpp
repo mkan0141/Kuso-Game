@@ -1,4 +1,5 @@
 #pragma once
+#include <ctime>
 
 #define MAZE_SIZE 21
 
@@ -36,12 +37,12 @@ struct Enemy{
 
 bool available_move(Player player,Vector2 vec, int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   if(0 <= player.x + vec.x && player.x + vec.x < MAZE_SIZE && 0 <= player.y + vec.y && player.y + vec.y < MAZE_SIZE)
-    return maze[player.y + vec.y][player.x + vec.x] == ROAD;
+    return maze[player.y + vec.y][player.x + vec.x] != BLOCK;
   else return false;
 }
 
 bool e_available_move(Enemy enemy,Vector2 vec, int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   if(0 <= enemy.x + vec.x && enemy.x + vec.x < MAZE_SIZE && 0 <= enemy.y + vec.y && enemy.y + vec.y < MAZE_SIZE)
-    return maze[enemy.y + vec.y][enemy.x + vec.x] == ROAD;
+    return maze[enemy.y + vec.y][enemy.x + vec.x] != BLOCK;
   else return false;
 }

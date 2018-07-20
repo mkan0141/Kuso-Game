@@ -33,7 +33,7 @@ int bfs(int x, int y,  Player player,int _maze[MAZE_SIZE][MAZE_SIZE]){
 						if(nx == player.x && ny == player.y){
 								return cost + 1;
 						}
-						if(0 <= nx && nx < MAZE_SIZE && 0 <= ny && ny < MAZE_SIZE && maze[ny][nx] == ROAD){
+						if(0 <= nx && nx < MAZE_SIZE && 0 <= ny && ny < MAZE_SIZE && maze[ny][nx] != BLOCK){
 								maze[_y][_x] = BLOCK;
 								que.push(std::make_pair(Vector2(nx,ny), cost + 1));
 						}
@@ -48,7 +48,7 @@ Vector2 bfs_ai(Enemy enemy, Player player,int maze[MAZE_SIZE][MAZE_SIZE]){
 		maze[enemy.y][enemy.x] = BLOCK;
 		for(int i = 0; i < 4; i++){
 				int nx = enemy.x + dx[i], ny = enemy.y + dy[i];
-				if(0 <= nx && nx < MAZE_SIZE && 0 <= ny && ny < MAZE_SIZE && maze[ny][nx] == ROAD){
+				if(0 <= nx && nx < MAZE_SIZE && 0 <= ny && ny < MAZE_SIZE && maze[ny][nx] != BLOCK){
 						maze[ny][nx] = BLOCK;
 						int new_cost = bfs(nx, ny, player, maze);
 						maze[ny][nx] = ROAD;
@@ -63,10 +63,8 @@ Vector2 bfs_ai(Enemy enemy, Player player,int maze[MAZE_SIZE][MAZE_SIZE]){
 		return Vector2(enemy.x + dx[index], enemy.y + dy[index]);
 }
 
-Vector2 ai(Enemy enemy, Player player,int (&maze)[MAZE_SIZE][MAZE_SIZE], time_t start){
-		time_t now = time(NULL);
-		int diff_time = now - start;
-
-		if(diff_time <= 0)return random_ai(enemy, maze);
+Vector2 ai(Enemy &enemy, Player player,int (&maze)[MAZE_SIZE][MAZE_SIZE], int &walk){	
+		walk++;
+		if(walk < 20)return random_ai(enemy, maze);
 		else return bfs_ai(enemy, player, maze);
 }
