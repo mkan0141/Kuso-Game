@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdlib.h>
 #include <time.h>
 #include <ncurses.h>
@@ -6,7 +8,7 @@
 
 #include "ai.hpp"
 #include "result.hpp"
-
+#include "create_maze.hpp"
 const int delay = 1000;
 
 int available_key(int key){
@@ -34,7 +36,6 @@ bool is_game_over(Enemy enemy, Player player){
 }
 
 void init_charactor(Player &player, Enemy &enemy, int (&maze)[MAZE_SIZE][MAZE_SIZE]){
-/* とりあえず初期値は固定しておく */
   player = Player(1, 1);
   enemy = Enemy(9, 9);
   maze[player.y][player.x] = PLAYER;
@@ -67,39 +68,24 @@ void destroy_all(int (&maze)[MAZE_SIZE][MAZE_SIZE], Player *player, Enemy *enemy
 
 void game_main(char *name){
   clear();
-  
+  int maze[MAZE_SIZE][MAZE_SIZE];
   Player *player; player = (Player*)malloc(sizeof(Player));
   Enemy *enemy; enemy = (Enemy*)malloc(sizeof(Enemy));
   int ch;
-  int maze[MAZE_SIZE][MAZE_SIZE] = {
-    {0,0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,0,1,0,0,0,1,1,0},
-    {0,1,1,1,1,1,1,1,1,0,0},
-    {0,0,0,1,0,0,0,0,1,0,0},
-    {0,1,1,1,1,1,0,0,1,1,0},
-    {0,1,0,1,0,0,0,0,1,1,0},
-    {0,1,0,0,1,1,1,1,1,1,0},
-    {0,1,0,0,0,0,1,0,0,0,0},
-    {0,1,0,0,0,0,1,0,1,0,0},
-    {0,1,1,1,0,0,1,1,1,1,0},
-    {0,0,0,0,0,0,0,0,0,0,0}
-  };
-
+  
+  create_maze(maze);
   init_charactor(*player, *enemy, maze);
- 
-  // timeout(delay);
+  
   draw_all(maze);
   time_t start = time(NULL);
   while(1){
     ch = getch();
-    /*mvprintw(30, 30, "%d", ch);
-    continue;*/
     ch = available_key(ch);
     if(ch != -1){
       if(available_move(*player,Vector2(dx[ch],dy[ch]),maze)){
         Vector2 vec = ai(*enemy, *player,maze,start);
         move_player(*player, Vector2(player->x + dx[ch], player->y + dy[ch]), maze);
-	move_enemy(*enemy, vec, maze);
+	    move_enemy(*enemy, vec, maze);
 	if(is_game_over(*enemy, *player)){
 	  draw_all(maze);
           break;
@@ -108,10 +94,9 @@ void game_main(char *name){
     }
     draw_all(maze);
     ch = -1;
-  }
-  
+  } 
   destroy_all(maze, player, enemy);
+  clear();refresh();
   time_t end = time(NULL);
   draw_result(end - start , name);
-  return ;
 }
