@@ -43,8 +43,9 @@ void init_charactor(Player &player, Enemy &enemy, int (&maze)[MAZE_SIZE][MAZE_SI
   srand((unsigned)time(NULL));
 }
 
-void draw_all(int (&maze)[MAZE_SIZE][MAZE_SIZE]){
+void draw_all(int (&maze)[MAZE_SIZE][MAZE_SIZE], time_t start){
   clear();
+  mvprintw(0, MAZE_SIZE * 3 / 4,"%d びょうけいか",time(NULL) - start);
   for(int i=0;i<MAZE_SIZE;i++){
     int width = 2;
     for(int j=0;j<MAZE_SIZE;j++){
@@ -75,10 +76,12 @@ void game_main(char *name){
   
   create_maze(maze);
   init_charactor(*player, *enemy, maze);
-  
-  draw_all(maze);
-  time_t start = time(NULL);
+ 
+  time_t start = time(NULL); 
+  draw_all(maze, start);
+  timeout(delay);
   while(1){
+    ch = -1;
     ch = getch();
     ch = available_key(ch);
     if(ch != -1){
@@ -87,16 +90,23 @@ void game_main(char *name){
         move_player(*player, Vector2(player->x + dx[ch], player->y + dy[ch]), maze);
 	    move_enemy(*enemy, vec, maze);
 	if(is_game_over(*enemy, *player)){
-	  draw_all(maze);
+	  draw_all(maze,start);
           break;
      	}
       }
-    }
-    draw_all(maze);
+    }else{
+			Vector2 vec = ai(*enemy, *player,maze,start);
+			move_enemy(*enemy, vec, maze);
+
+			if(is_game_over(*enemy, *player)){draw_all(maze,start);break;       }
+	}
+    draw_all(maze, start);
     ch = -1;
   } 
   destroy_all(maze, player, enemy);
   clear();refresh();
   time_t end = time(NULL);
+
+  timeout(-1);
   draw_result(end - start , name);
 }
