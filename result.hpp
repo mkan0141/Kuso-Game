@@ -37,9 +37,11 @@ void draw_result(int time, char *name){
     clear();
     return ;
   }
-  mvprintw(0, 2,"じゅんい\tおなまえ\tとくてん");
 
-  int height = 2;
+  mvprintw(1,2,"     あなたのスコアは%dです！", time);
+  mvprintw(3, 2,"じゅんい\tおなまえ\tとくてん");
+
+  int height = 5;
   Ranking ranking[11];
 
   int i=0;
@@ -62,6 +64,7 @@ void draw_result(int time, char *name){
     mvprintw(height, 2,"%2d\t\t%s\t\t%2d", i + 1, ranking[i].name, ranking[i].score);
     height+=1;
   }
+  mvprintw(height+2, 2, "       qキーでタイトルにもどる");
   
   fp = fopen("./text/ranking.txt", "w");
   for(int i=0;i<10;i++){

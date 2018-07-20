@@ -19,9 +19,10 @@ void show_ranking(){
   
   while(fscanf(fp, "%d %s %d", &rank, name, &score) != EOF) {
     mvprintw(height, 2,"%2d\t\t%s\t\t%2d", rank, name, score);
-    height+=2;
+    height+=1;
   }
   
+  mvprintw(height+2, 2, "       qキーでタイトルにもどる");
   int ch = 0;
   while(1){
     ch = getch();
