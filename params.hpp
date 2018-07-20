@@ -1,7 +1,7 @@
 #pragma once
 #include <ctime>
 
-#define MAZE_SIZE 21
+#define MAZE_SIZE 25
 
 #define BLOCK 0
 #define ROAD 1

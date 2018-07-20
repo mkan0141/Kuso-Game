@@ -114,9 +114,10 @@ void add_block(int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   }
 }
 
+// 適当に壁を削る
 void random_erase(int (&maze)[MAZE_SIZE][MAZE_SIZE]){
   int cnt = 0;
-  while(cnt != 10){
+  while(cnt != 20){
     int x = rand() % MAZE_SIZE;
     int y = rand() % MAZE_SIZE;
     if(x!=0&&y!=0&&x!=MAZE_SIZE-1&&y!=MAZE_SIZE-1&&maze[y][x] == BLOCK){
