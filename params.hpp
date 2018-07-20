@@ -1,4 +1,6 @@
-#define MAZE_SIZE 11
+#pragma once
+
+#define MAZE_SIZE 21
 
 #define BLOCK 0
 #define ROAD 1

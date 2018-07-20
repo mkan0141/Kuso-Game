@@ -1,3 +1,5 @@
+#pragma once
+
 #include <ncurses.h>
 #include <unistd.h>
 
@@ -6,10 +8,11 @@
 #include "help.hpp"
 
 void draw_menu(){
-  mvprintw(1, 5, "1. ぷれい！");
-  mvprintw(3, 5, "2. らんきんぐ！");
-  mvprintw(5, 5, "3. へるぷ！");
-  mvprintw(7, 5, "4. ばいばい！");
+  mvprintw(1, 6, "おにごっこ");
+  mvprintw(3, 5, "1. ぷれい！");
+  mvprintw(5, 5, "2. らんきんぐ！");
+  mvprintw(7, 5, "3. へるぷ！");
+  mvprintw(9, 5, "4. ばいばい！");
 }
 
 int show_menu(){

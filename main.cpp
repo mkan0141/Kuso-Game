@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstdio>
 #include <ncurses.h>
 #include <unistd.h>
@@ -11,9 +13,9 @@ int main(){
   crmode();
   noecho(); 
   curs_set(0);
-
+  
   show_menu();
 
-  printf("\n\n");
+  endwin();
   return 0;
 }

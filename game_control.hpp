@@ -10,10 +10,10 @@ char *input_username_screen(char *name){
   clear();
 
   int width = 5;
-  mvprintw(5,2,"ゆーざーめいをにゅうりょくしてね");
+  mvprintw(3,2,"ゆーざーめいをにゅうりょくしてね");
   while(ch = getch(), ch != 10){
     clear();
-    mvprintw(5,2,"ゆーざーめいをにゅうりょくしてね");
+    mvprintw(3,2,"ゆーざーめいをにゅうりょくしてね");
     if(ch == KEY_BACKSPACE){
       name[index] = '\0';
       if(index)index--;
@@ -21,7 +21,7 @@ char *input_username_screen(char *name){
       name[index] = ch;
       index++;
     }
-    mvprintw(10,width, "%s",name);
+    mvprintw(5,width, "%s",name);
     refresh();
   }
   
