@@ -5,7 +5,7 @@
 
 #include "game.hpp"
 
-char *input_username_screen(char *name) {
+void input_username_screen(char *name) {
     int ch, index = 0;
     clear();
 
@@ -26,7 +26,6 @@ char *input_username_screen(char *name) {
     }
 
     clear();
-    return name;
 }
 
 void show_game() {
