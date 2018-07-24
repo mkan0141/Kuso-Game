@@ -20,10 +20,10 @@ result.o: result.hpp
 	g++ -std=c++14 -c result.hpp -o result.o -lncursesw
 
 create_maze.o: create_maze.hpp
-	g++ -std=c++14 -c create_maze.hpp -o create_maze.o -lncursesw
+	g++ -std=c++14 -c create_maze.hpp -o create_maze.o
 
 params.p: params.hpp
-	g++ -std=c++14 -c params.hpp -o params.o -lncursesw
+	g++ -std=c++14 -c params.hpp -o params.o
 
 clear:
 	rm  oni
