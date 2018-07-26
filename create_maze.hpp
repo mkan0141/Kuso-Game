@@ -6,24 +6,24 @@
 #include <iostream>
 #include <vector>
 #include "params.hpp"
-using namespace std;
 
-vector<Vector2> tmp;
-void DEBUG(int maze[MAZE_SIZE][MAZE_SIZE], vector<Vector2> path) {
+
+std::vector<Vector2> tmp;
+void DEBUG(int maze[MAZE_SIZE][MAZE_SIZE], std::vector<Vector2> path) {
     for (int i = 0; i < MAZE_SIZE; i++) {
         for (int j = 0; j < MAZE_SIZE; j++) {
             if (maze[i][j] == BLOCK)
-                cout << "#";
+                std::cout << "#";
             else
-                cout << ".";
+                std::cout << ".";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
-    cout << endl << endl;
+    std::cout << std::endl << std::endl;
     ;
 }
 
-void init_maze(int (&maze)[MAZE_SIZE][MAZE_SIZE], vector<Vector2> &nodes) {
+void init_maze(int (&maze)[MAZE_SIZE][MAZE_SIZE], std::vector<Vector2> &nodes) {
     /* 1マスおきに柱を置く  */
     for (int i = 0; i < MAZE_SIZE; i++) {
         for (int j = 0; j < MAZE_SIZE; j++) {
@@ -52,21 +52,21 @@ void init_maze(int (&maze)[MAZE_SIZE][MAZE_SIZE], vector<Vector2> &nodes) {
 
 bool equal(Vector2 a, Vector2 b) { return (a.x == b.x && a.y == b.y); }
 
-bool is_nodes(vector<Vector2> &nodes, Vector2 &vec) {
+bool is_nodes(std::vector<Vector2> &nodes, Vector2 &vec) {
     for (int i = 0; i < nodes.size(); i++) {
         if (equal(nodes[i], vec)) return true;
     }
     return false;
 }
 
-bool is_path(vector<Vector2> &path, Vector2 vec) {
+bool is_path(std::vector<Vector2> &path, Vector2 vec) {
     for (int i = 0; i < path.size(); i++) {
         if (equal(path[i], vec)) return true;
     }
     return false;
 }
 
-void delete_node(vector<Vector2> &path, vector<Vector2> &nodes) {
+void delete_node(std::vector<Vector2> &path, std::vector<Vector2> &nodes) {
     for (int i = 0; i < path.size(); i++) {
         for (int j = 0; j < nodes.size(); j++) {
             if (equal(path[i], nodes[j])) {
@@ -81,7 +81,7 @@ void delete_node(vector<Vector2> &path, vector<Vector2> &nodes) {
 Vector2 hoge = Vector2(0, 0);
 bool ok = false;
 
-bool search(Vector2 now, vector<Vector2> path, vector<Vector2> nodes) {
+bool search(Vector2 now, std::vector<Vector2> path, std::vector<Vector2> nodes) {
     // cout << now.x <<", " << now.y << endl;
     if (!is_nodes(nodes, now)) {
         tmp = path;
@@ -91,7 +91,7 @@ bool search(Vector2 now, vector<Vector2> path, vector<Vector2> nodes) {
     int d[4] = {0, 1, 2, 3};
     for (int i = 0; i < 5; i++) {
         int r1 = rand() % 4, r2 = rand() % 4;
-        swap(d[r1], d[r2]);
+        std::swap(d[r1], d[r2]);
     }
 
     for (int i = 0; i < 4; i++) {
@@ -139,7 +139,7 @@ void random_erase(int (&maze)[MAZE_SIZE][MAZE_SIZE]) {
 }
 
 void create_maze(int (&maze)[MAZE_SIZE][MAZE_SIZE]) {
-    vector<Vector2> nodes, path;
+    std::vector<Vector2> nodes, path;
     /* 迷路の初期化 */
     init_maze(maze, nodes);
     srand((unsigned)time(NULL));
@@ -157,7 +157,6 @@ void create_maze(int (&maze)[MAZE_SIZE][MAZE_SIZE]) {
         path.push_back(dir);
         /* 探索開始 */
         if (!search(dir, path, nodes)) {
-            cout << "end" << endl;
             continue;
         }
 
