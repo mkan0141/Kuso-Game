@@ -3,7 +3,7 @@
 #include <ctime>
 #include <iostream>
 #include <queue>
-#include <utility>
+
 #include "params.hpp"
 
 Vector2 random_ai(Enemy &enemy, int (&maze)[MAZE_SIZE][MAZE_SIZE]) {

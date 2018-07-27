@@ -1,7 +1,6 @@
-
+#include <cstdio>
 #include <ncurses.h>
 #include <unistd.h>
-#include <cstdio>
 
 #include "menu.hpp"
 
